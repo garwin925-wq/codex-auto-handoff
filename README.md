@@ -34,9 +34,11 @@ Add this instruction to your effective user-level `AGENTS.md`:
 
 The optional [PostToolUse reminder](codex-auto-handoff/references/hooks.md) can flag when to prepare or hand off. Use a task milestone when reliable usage data is unavailable. A tool-call hook may run too late to warn before compaction.
 
+The source chat keeps important corrections in a per-chat requirements list with the original wording, source and acceptance check. The receiver gets the path even if the short summary omits an entry. Before editing, it checks the list against the project evidence. Coverage depends on what was recorded. See the [checkpoint format](codex-auto-handoff/SKILL.md#check-for-omissions).
+
 ## Tests and removal
 
-Run `node --test tests/handoff.test.mjs` at the repository root to check threshold handling, title numbering, and rejection of unsupported permission profiles.
+Run `node --test` at the repository root to check threshold handling, title numbering, and rejection of unsupported permission profiles.
 
 To uninstall, remove your handoff rules and hook entries, then remove the installed skill directory. Existing chats and checkpoint files remain available. The user's Codex directory contains receipts and title history under `handoff-state/`. Retain those records if you need to review past transfers.
 
