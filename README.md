@@ -1,16 +1,22 @@
-# Codex Auto Handoff — Context handoff and session rollover for Windows Codex
+# Codex Auto Handoff
 
-[简体中文](README.zh-CN.md)
+[简体中文](README.zh-CN.md) · [Documentation](docs/index.md)
 
-When a long Codex chat approaches its context limit, save the task state and open a fresh chat in the same project. The new chat reads the handoff and starts the next task. Each chat gets its own ID and a numbered title. Use `/compact` when you want to shorten context within the current chat.
+**Automatic context handoff and new chat continuation for Windows Codex Desktop.** When a long task approaches the context limit, Codex saves its state, opens a fresh chat in the same saved project, and sends the next authorized task. The receiver gets a new chat ID and a numbered title.
 
-**Install in Codex.** Send this message to Codex:
+**Install** by sending this message to Codex:
 
 ```text
 $skill-installer Install https://github.com/garwin925-wq/codex-auto-handoff/tree/main/codex-auto-handoff
 ```
 
-**Start a context handoff.** On the next turn, send `$codex-auto-handoff` in the chat you want to continue. The skill uses the native chat tools when available. On Windows, if those tools are missing, its Node.js helper can create the receiving chat through Codex App Server after checking the project, working directory and permissions. For automatic session rollover, add a standing instruction to use the skill near the context limit. The optional [usage hook](codex-auto-handoff/references/hooks.md) can remind Codex after a tool call. If usage is unknown, save at a task boundary.
+**Use** `$codex-auto-handoff` in the source chat on the next turn. To enable automatic session switching, add the [standing rule](#enable-automatic-handoff) and optionally configure the [context usage reminder](codex-auto-handoff/references/hooks.md).
+
+**Windows 11 capabilities:** structured task checkpoints, saved-project checks, and native chat creation where available. The Windows App Server fallback requires a compatible Codex CLI and Node.js 20+ and uses independent receipts for duplicate handoff protection.
+
+![7.8-second event replay: Chat 1 saves STATE.md, Chat 2 opens in the same project, reads the checkpoint and writes result.txt](docs/handoff-replay.gif)
+
+[How automatic new chat works](docs/why-codex-auto-handoff.md) · [Handoff vs. /compact](docs/codex-handoff-vs-compact.md)
 
 **Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.en.md), the receiving chat wrote the expected value to a file in the same project. In one [observed real task](docs/natural-threshold-observation.md#follow-up-on-2026-11-18), a usage reminder appeared at about 90.5% and the locally deployed helper created a fresh chat that completed the requested next step. The first observed reminder was above the configured threshold.
 

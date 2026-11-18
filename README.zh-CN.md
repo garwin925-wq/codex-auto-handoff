@@ -1,12 +1,22 @@
 # Codex Auto Handoff
 
-[English](README.md)
+[English](README.md) · [文档索引](docs/index.md)
 
-**Windows Codex：上下文接近上限 → 保存状态 → 创建真正的新聊天 → 同一项目继续。**
+**Windows Codex Desktop 自动上下文交接与新聊天续接。** Codex 上下文快满时，助手保存任务状态，在同一已保存项目中创建带独立 ID 的新聊天并发送已授权的下一步。接续标题沿用原标题编号。
 
-**Windows 上的 Codex 聊天上下文快满了，怎么在同一个项目开新对话，接着完成原来的任务？**
+**安装**：把下面这句话发给 Codex。
 
-安装后，在原聊天中发送 `$codex-auto-handoff` 即可手动交接。要启用自动换聊，可以[配置全局规则](#设为默认)，让 Codex 在交接点保存进度并开启新聊天。可选的 [PostToolUse hook](codex-auto-handoff/references/hooks.zh-CN.md) 会在工具调用后参考最近一次请求的用量，提醒 Codex 准备或执行上下文交接。
+```text
+$skill-installer Install https://github.com/garwin925-wq/codex-auto-handoff/tree/main/codex-auto-handoff
+```
+
+**使用**：下一回合在原聊天里发送 `$codex-auto-handoff`。要让 Codex 自动换聊天，添加[全局规则](#设为默认)，并按需配置[上下文用量提醒](codex-auto-handoff/references/hooks.zh-CN.md)。
+
+**Windows 11 已验收的能力**包括结构化检查点和同项目续接。原生工具可用时优先使用；Windows App Server 后备程序需要兼容的 Codex CLI 和 Node.js 20+，通过每个来源聊天独立的交接收据防止重复创建。
+
+![7.8 秒日志回放：旧聊天保存 STATE.md，同项目新聊天读取交接，继续执行并写出 result.txt](docs/handoff-replay.gif)
+
+[Windows Codex 自动续接指南](docs/why-codex-auto-handoff.zh-CN.md) · [与 /compact 的区别](docs/codex-handoff-vs-compact.zh-CN.md)
 
 **Windows 实测结果**：原聊天保存了交接文件，技能在同一项目中创建了新聊天，新聊天接着执行任务并写出了预期的验收值。另有一次[真实任务自然触发的记录](docs/natural-threshold-observation.zh-CN.md)：约 90.5% 时观察到提醒，新聊天完成了下一步。该记录来自本机部署，无法确认是否会在刚过 80% 时及时触发。[查看两次会话的步骤、结果与日志回放](docs/windows-acceptance.md)。
 
