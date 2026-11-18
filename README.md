@@ -2,9 +2,15 @@
 
 When a long Codex chat approaches its context limit, save the task state and open a fresh chat in the same project. The new chat reads the handoff and starts the next task. Each chat gets its own ID and a numbered title.
 
-**Try a context handoff.** Install the [Codex skill](codex-auto-handoff/SKILL.md), then send `$codex-auto-handoff` in the chat you want to continue. For automatic session rollover, add a standing instruction to use the skill near the context limit. The optional [usage hook](codex-auto-handoff/references/hooks.md) can remind Codex after a tool call. If usage is unknown, save at a task boundary.
+**Install in Codex.** Send this message to Codex:
 
-**Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.md), the receiving chat wrote the expected value to a file in the same project. The timing of a rollover triggered by a naturally filling context window still needs validation.
+```text
+$skill-installer Install https://github.com/garwin925-wq/codex-auto-handoff/tree/main/codex-auto-handoff
+```
+
+**Start a context handoff.** On the next turn, send `$codex-auto-handoff` in the chat you want to continue. The skill uses the native chat tools when available. On Windows, if those tools are missing, its Node.js helper can create the receiving chat through Codex App Server after checking the project, working directory and permissions. For automatic session rollover, add a standing instruction to use the skill near the context limit. The optional [usage hook](codex-auto-handoff/references/hooks.md) can remind Codex after a tool call. If usage is unknown, save at a task boundary.
+
+**Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.en.md), the receiving chat wrote the expected value to a file in the same project. The timing of a rollover triggered by a naturally filling context window still needs validation.
 
 ## 中文说明
 
