@@ -14,6 +14,14 @@ $skill-installer Install https://github.com/garwin925-wq/codex-auto-handoff/tree
 
 **Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.en.md), the receiving chat wrote the expected value to a file in the same project. In one [observed real task](docs/natural-threshold-observation.md#follow-up-on-2026-11-18), a usage reminder appeared at about 90.5% and the locally deployed helper created a fresh chat that completed the requested next step. The first observed reminder was above the configured threshold.
 
+## When to use a handoff or `/compact`
+
+If you are still tracing a bug and want to keep working in the same chat, `/compact` summarizes the conversation for the next steps. A handoff is useful when you can name a stopping point and give a new chat a concrete task.
+
+For example, suppose a fix passes locally and the next step is a Windows regression test. In the handoff, record the branch, the uncommitted files, the exact test command, and the result so far. Link to the existing test plan. The receiving chat can open that plan in the same workspace, inspect the current changes, and run the outstanding test. You can check the handoff yourself if the receiver starts repeating work.
+
+Writing and reading that checkpoint takes time. A constraint mentioned only in the old chat can be missed if the checkpoint omits it. Before switching, record decisions the next step depends on and finish or explicitly transfer any work that could still change the files.
+
 ## Installation and requirements
 
 Install the `codex-auto-handoff/` directory under the Codex user's `skills/` directory, or use the Skill Installer command above. Invoke `$codex-auto-handoff` on a subsequent turn. When native chat creation tools are unavailable, the fallback needs Node.js 20+ and a Codex CLI that supports the relevant experimental App Server operations. The helper checks project identity, working directory, and permissions before sending the next task. Tool and approval availability vary by client.
