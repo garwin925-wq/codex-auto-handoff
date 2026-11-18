@@ -10,7 +10,7 @@ $skill-installer Install https://github.com/garwin925-wq/codex-auto-handoff/tree
 
 **Start a context handoff.** On the next turn, send `$codex-auto-handoff` in the chat you want to continue. The skill uses the native chat tools when available. On Windows, if those tools are missing, its Node.js helper can create the receiving chat through Codex App Server after checking the project, working directory and permissions. For automatic session rollover, add a standing instruction to use the skill near the context limit. The optional [usage hook](codex-auto-handoff/references/hooks.md) can remind Codex after a tool call. If usage is unknown, save at a task boundary.
 
-**Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.en.md), the receiving chat wrote the expected value to a file in the same project. The timing of a rollover triggered by a naturally filling context window still needs validation. An [observation of a real project conversation](docs/natural-threshold-observation.md) remained below the trigger.
+**Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.en.md), the receiving chat wrote the expected value to a file in the same project. In one [observed real task](docs/natural-threshold-observation.md#follow-up-on-2026-11-18), a usage reminder appeared at about 90.5% and the locally deployed helper created a fresh chat that completed the requested next step. The first observed reminder was above the configured threshold.
 
 ## 中文说明
 
@@ -20,7 +20,7 @@ $skill-installer Install https://github.com/garwin925-wq/codex-auto-handoff/tree
 
 安装后，在原聊天中发送 `$codex-auto-handoff` 即可手动交接。要启用自动换聊，可以[配置全局规则](#设为默认)，让 Codex 在交接点保存进度并开启新聊天。可选的 [PostToolUse hook](codex-auto-handoff/references/hooks.md) 会在工具调用后参考最近一次请求的用量，提醒 Codex 准备或执行上下文交接。
 
-**Windows 实测结果**：原聊天保存了交接文件，技能在同一项目中创建了新聊天，新聊天接着执行任务并写出了预期的验收值。受控交接点已验证，自然达到阈值仍待观察。[查看两次会话的步骤、结果与日志回放](docs/windows-acceptance.md)。
+**Windows 实测结果**：原聊天保存了交接文件，技能在同一项目中创建了新聊天，新聊天接着执行任务并写出了预期的验收值。另有一次[真实任务自然触发的记录](docs/natural-threshold-observation.md#follow-up-on-2026-11-18)：约 90.5% 时观察到提醒，新聊天完成了下一步。该记录来自本机部署，无法确认是否会在刚过 80% 时及时触发。[查看两次会话的步骤、结果与日志回放](docs/windows-acceptance.md)。
 
 `/compact` 在原聊天内压缩上下文；本技能进行 fresh session handoff，新聊天有独立的聊天 ID，通过交接文件接着做。接续聊天沿用原标题并连续编号，例如「项目规划2」「项目规划3」。
 

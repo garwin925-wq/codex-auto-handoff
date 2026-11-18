@@ -14,3 +14,15 @@ The [earlier controlled checkpoint test](windows-acceptance.en.md) separately ve
 2026-11-18 复用真实项目长聊。此前已在这条聊天里部署换聊、打包技能、发布 GitHub 并检查可发现性。这轮继续核对本机 hook、发布脚本与验收证据，按实际工作读取材料，沿用已有模型、窗口和阈值。
 
 核对时最新一次请求记录为 259,059 / 475,000 tokens，约 54.5%。本聊天截至该时点有 198 条可用用量记录，没有达到 70% 或 80%。这次未自然触发换聊，也没有接收聊天执行下一步，因此自然触发链路仍未完成验收。[之前的受控接续验收](windows-acceptance.md)已单独验证新聊天在同项目执行并写出预期结果。
+
+## Follow-up on 2026-11-18
+
+### A resumed work conversation completed its task below the threshold
+
+An existing conversation with an unfinished local acceptance check last recorded 203,171 / 258,400 tokens (78.6%). We queued a normal continuation of that project task in the owning desktop client. The resumed turn reported a 475,000-token window. Usage went from 218,927 (46.1%) to 227,345 tokens (47.9%) while the chat completed two local filesystem acceptance cases with synthetic data. No threshold was changed, no transcript was padded, and this run did not trigger a handoff.
+
+### A separate real task did trigger a handoff and complete in the new chat
+
+The candidate search also uncovered a separate production-use conversation from earlier the same day. During an ordinary request to verify a project's existing service setup, the source log recorded the PostToolUse handoff reminder. The adjacent usage sample was 430,090 / 475,000 tokens (90.5%). The source chat wrote a checkpoint and invoked the locally deployed Windows App Server helper. The original request was for project work, with no instruction to force a threshold or a handoff. The helper used the host's normal approval path.
+
+We checked the source and receiver through Codex App Server. They had distinct chat IDs and the same working directory. The source had no stored project ID. The helper resolved its saved project by its directory, and the receiver's project ID matched the receipt. The receiving turn read the checkpoint, completed the requested read-only service and DNS checks, and reported the findings. Its turn and dispatch receipt were both completed, with writer ownership released. This is evidence of one naturally triggered handoff on the local deployment. The first observed reminder was already above 90%, so the record cannot establish exact trigger timing at 80%, reliability across all chats, or an equivalent outcome on a fresh installation of the public skill.
