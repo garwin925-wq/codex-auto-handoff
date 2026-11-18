@@ -10,7 +10,7 @@ $skill-installer Install https://github.com/garwin925-wq/codex-auto-handoff/tree
 
 **Start a context handoff.** On the next turn, send `$codex-auto-handoff` in the chat you want to continue. The skill uses the native chat tools when available. On Windows, if those tools are missing, its Node.js helper can create the receiving chat through Codex App Server after checking the project, working directory and permissions. For automatic session rollover, add a standing instruction to use the skill near the context limit. The optional [usage hook](codex-auto-handoff/references/hooks.md) can remind Codex after a tool call. If usage is unknown, save at a task boundary.
 
-**Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.en.md), the receiving chat wrote the expected value to a file in the same project. The timing of a rollover triggered by a naturally filling context window still needs validation.
+**Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.en.md), the receiving chat wrote the expected value to a file in the same project. The timing of a rollover triggered by a naturally filling context window still needs validation. An [observation of a real project conversation](docs/natural-threshold-observation.md) remained below the trigger.
 
 ## 中文说明
 
