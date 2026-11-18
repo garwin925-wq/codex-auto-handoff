@@ -1,4 +1,12 @@
-# Codex Auto Handoff
+# Codex Auto Handoff — Context handoff and session rollover for Windows Codex
+
+When a long Codex chat approaches its context limit, save the task state and open a fresh chat in the same project. The new chat reads the handoff and starts the next task. Each chat gets its own ID and a numbered title.
+
+**Try a context handoff.** Install the [Codex skill](codex-auto-handoff/SKILL.md), then send `$codex-auto-handoff` in the chat you want to continue. For automatic session rollover, add a standing instruction to use the skill near the context limit. The optional [usage hook](codex-auto-handoff/references/hooks.md) can remind Codex after a tool call. If usage is unknown, save at a task boundary.
+
+**Tested on Windows 11.** In a [controlled handoff test](docs/windows-acceptance.md), the receiving chat wrote the expected value to a file in the same project. The timing of a rollover triggered by a naturally filling context window still needs validation.
+
+## 中文说明
 
 **Windows Codex：上下文接近上限 → 保存状态 → 创建真正的新聊天 → 同一项目继续。**
 
