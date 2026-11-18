@@ -1,5 +1,7 @@
 # Windows 接续验收 · 2026-11-18
 
+[English](windows-acceptance.en.md)
+
 **验收问题**：来源聊天交出任务后，新聊天能否在同一项目里执行下一步，并产生可独立检查的结果？
 
 ![三帧日志回放：来源聊天保存 STATE.md，同项目创建不同 ID 的聊天，接收聊天写出 result.txt](handoff-replay.gif)

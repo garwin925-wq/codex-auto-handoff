@@ -1,18 +1,20 @@
 ---
 name: codex-auto-handoff
-description: 在 Windows Codex 的已保存项目中为长任务保存交接，开启同项目新聊天并按原标题连续编号。用于用户要求换聊，或已启用提前交接且接近上下文上限的任务。
+description: Save task state and start a fresh, numbered chat in the same saved Windows Codex project. Use when the user asks to switch chats, or when early handoff is enabled and the source chat is approaching its context limit.
 ---
 
-从当前用户请求或已启用的全局规则确认换聊意图。约 70% 完善交接，约 80% 或下一步可能产生大量输出时完成可安全结束的小步骤。更早的压缩边界优先。无法读取准确占用时按阶段保存。
+[中文技能说明](references/skill.zh-CN.md)
 
-优先使用项目已有进度文档，或写入项目内 `docs/handoff/<source-thread-id>/STATE.md`。保留用户原始要求与出处、参数和单位、决定及否决原因、工作区和分支、修改、测试结果、待确认事项和下一步绝对路径。区分事实和推测。结束或明确移交现有写任务后才派发，旧聊天停止业务写入。不要复制凭据。写明原始标题和当前序号供其他客户端使用。
+Confirm that the current request or a standing rule authorizes a handoff. Prepare the checkpoint around 70% of the context window. Around 80%, or before an operation that could produce substantial output, finish the smallest safe step and hand off. Act earlier if the automatic compaction boundary is lower. Use task milestones when reliable usage data is unavailable.
 
-优先调用宿主提供的项目列表和创建聊天工具，核实同一个本地项目与工作区，创建一次空白聊天并传入交接路径和已授权下一步。新聊天标题在原标题末尾直接追加下一序号，第一次接续为 2。只有明确缺少原生工具时，使用下面的 Windows 入口；原生审批拒绝应留在原流程中处理。
+Reuse an existing progress document or write `docs/handoff/<source-thread-id>/STATE.md` inside the project. Include the user's requirements and their sources, parameters and units, decisions and discarded alternatives, the workspace and branch, changes, test results, open questions, and absolute paths for the next action. Identify facts and assumptions. Finish or explicitly transfer ongoing write tasks before dispatch. The source chat should stop modifying the project after transferring ownership. Keep credentials out of the checkpoint. Record the original title and current sequence number for other clients.
 
-在原工作区执行以下 PowerShell 命令，把两个占位路径替换为技能安装处的脚本绝对路径及此次交接文件绝对路径。使用宿主提供的 CODEX_THREAD_ID。需要用户级访问时遵守正常审批。
+Prefer the host's native project lookup and chat creation tools. Verify the saved local project and workspace, then create one empty chat with the checkpoint path and the authorized next action. Append the next number to the original title, starting at 2. Use the Windows fallback only if the host lacks native creation tools. Handle approval refusals within the original approval flow.
+
+Run the following PowerShell command from the source workspace. Replace both placeholders with absolute paths. The host supplies `CODEX_THREAD_ID`. Follow the normal approval flow for user-level access.
 
 ```powershell
-node '<安装目录>/scripts/handoff.mjs' continue '<交接文件绝对路径>' (Get-Command codex.exe).Source
+node '<skill-install-directory>/scripts/handoff.mjs' continue '<absolute-checkpoint-path>' (Get-Command codex.exe).Source
 ```
 
-收据给出目标 ID 后按该 ID 跟踪。长任务保持连接；结果不明时检查原收据，避免重复创建。已创建但需要审批或输入时，引导用户进入同一个新聊天。若项目无法确认、策略无法保留或主机不支持，提供已有交接文件与一句接续指令，并说明仍需手动新建聊天。
+Track the receiver by the ID in the receipt. Keep the connection open for long tasks. If the outcome is uncertain, inspect the existing receipt before retrying. If the receiver needs approval or input, direct the user to that chat. If the helper cannot verify the project, preserve permissions, or operate on the host, provide the checkpoint and a one-line continuation prompt for the user to open manually.
